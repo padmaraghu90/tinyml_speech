@@ -192,6 +192,22 @@ if(CONFIG_TENSORFLOW_LITE_MICRO)
     ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/micro/kernels/var_handle.cc
     ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/micro/kernels/while.cc
     ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/micro/kernels/zeros_like.cc
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/frontend.c
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/frontend_util.c
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/fft_util.cc
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/fft.cc
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/filterbank_util.c
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/filterbank.c
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/window_util.c
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/window.c
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/noise_reduction_util.c
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/noise_reduction.c
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/log_scale_util.c
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/log_scale.c
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/pcan_gain_control_util.c
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/pcan_gain_control.c
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/kiss_fft_int16.cc
+    ${TENSORFLOW_LITE_MICRO_DIR}/tensorflow/lite/experimental/microfrontend/lib/log_lut.c
   )
 
 endif()

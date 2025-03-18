@@ -19,7 +19,7 @@ limitations under the License.
 
 #ifndef ARDUINO_EXCLUDE_CODE
 
-#include "Arduino.h"
+//#include "Arduino.h"
 #include "command_responder.h"
 
 // Toggles the built-in LED every inference, and lights a colored LED depending
@@ -27,6 +27,7 @@ limitations under the License.
 void RespondToCommand(tflite::ErrorReporter* error_reporter,
                       int32_t current_time, const char* found_command,
                       uint8_t score, bool is_new_command) {
+#if 0
   static bool is_initialized = false;
   if (!is_initialized) {
     pinMode(LED_BUILTIN, OUTPUT);
@@ -83,7 +84,8 @@ void RespondToCommand(tflite::ErrorReporter* error_reporter,
     digitalWrite(LED_BUILTIN, HIGH);
   } else {
     digitalWrite(LED_BUILTIN, LOW);
-  }
+  }'
+#endif
 }
 
 #endif  // ARDUINO_EXCLUDE_CODE

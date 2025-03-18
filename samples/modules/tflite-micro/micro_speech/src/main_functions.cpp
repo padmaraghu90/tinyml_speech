@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include <TensorFlowLite.h>
+//#include <TensorFlowLite.h>
 
 #include "audio_provider.h"
 #include "command_responder.h"
@@ -22,11 +22,17 @@ limitations under the License.
 #include "micro_features_micro_model_settings.h"
 #include "micro_features_model.h"
 #include "recognize_commands.h"
-#include "tensorflow/lite/micro/micro_error_reporter.h"
+#include "tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 #include "tensorflow/lite/micro/system_setup.h"
 #include "tensorflow/lite/schema/schema_generated.h"
+#include "tensorflow/lite/micro/micro_log.h"
+
+#include <zephyr/sys/printk.h>
+#include <zephyr/bluetooth/bluetooth.h>
+
+extern int observer_start(tflite::ErrorReporter* error_reporter);
 
 #undef PROFILE_MICRO_SPEECH
 
@@ -49,15 +55,37 @@ int8_t feature_buffer[kFeatureElementCount];
 int8_t* model_input_buffer = nullptr;
 }  // namespace
 
+void bt_setup(tflite::ErrorReporter* error_reporter)
+{
+	int err;
+
+	TF_LITE_REPORT_ERROR(error_reporter, "Starting Observer Demo\n");
+
+	/* Initialize the Bluetooth Subsystem */
+	err = bt_enable(NULL);
+	if (err) {
+		TF_LITE_REPORT_ERROR(error_reporter, "Bluetooth init failed (err %d)\n", err);
+		return;
+	}
+
+	(void)observer_start(error_reporter);
+
+	TF_LITE_REPORT_ERROR(error_reporter, "Exiting %s thread.\n", __func__);
+	return;
+}
 // The name of this function is important for Arduino compatibility.
 void setup() {
   tflite::InitializeTarget();
+  MicroPrintf("Padmaaaaaaaaaaaaaaaaaaaa!!!\n");
+  
 
   // Set up logging. Google style is to avoid globals or statics because of
   // lifetime uncertainty, but since this has a trivial destructor it's okay.
   // NOLINTNEXTLINE(runtime-global-variables)
   static tflite::MicroErrorReporter micro_error_reporter;
   error_reporter = &micro_error_reporter;
+
+  TF_LITE_REPORT_ERROR(error_reporter, "Aarthiiiiiiiiiiiiiiiiiiii\n");
 
   // Map the model into a usable data structure. This doesn't involve any
   // copying or parsing, it's a very lightweight operation.
@@ -78,7 +106,7 @@ void setup() {
   //
   // tflite::AllOpsResolver resolver;
   // NOLINTNEXTLINE(runtime-global-variables)
-  static tflite::MicroMutableOpResolver<4> micro_op_resolver(error_reporter);
+  static tflite::MicroMutableOpResolver<4> micro_op_resolver;
   if (micro_op_resolver.AddDepthwiseConv2D() != kTfLiteOk) {
     return;
   }
@@ -94,7 +122,7 @@ void setup() {
 
   // Build an interpreter to run the model with.
   static tflite::MicroInterpreter static_interpreter(
-      model, micro_op_resolver, tensor_arena, kTensorArenaSize, error_reporter);
+      model, micro_op_resolver, tensor_arena, kTensorArenaSize);
   interpreter = &static_interpreter;
 
   // Allocate memory from the tensor_arena for the model's tensors.
@@ -128,12 +156,19 @@ void setup() {
 
   previous_time = 0;
 
+  //setup bluetooth
+  TF_LITE_REPORT_ERROR(error_reporter, "start ble\n");
+  bt_setup(error_reporter);
+
+
+  TF_LITE_REPORT_ERROR(error_reporter, "start audio\n");
   // start the audio
   TfLiteStatus init_status = InitAudioRecording(error_reporter);
   if (init_status != kTfLiteOk) {
     TF_LITE_REPORT_ERROR(error_reporter, "Unable to initialize audio");
     return;
   }
+  
 
   TF_LITE_REPORT_ERROR(error_reporter, "Initialization complete");
 }
