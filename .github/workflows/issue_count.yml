@@ -35,14 +35,14 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: upload-stats
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       continue-on-error: true
       with:
         name: ${{ env.OUTPUT_FILE_NAME }}
         path: ${{ env.OUTPUT_FILE_NAME }}
 
     - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v4
+      uses: aws-actions/configure-aws-credentials@v5
       with:
         aws-access-key-id: ${{ vars.AWS_TESTING_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_TESTING_SECRET_ACCESS_KEY }}

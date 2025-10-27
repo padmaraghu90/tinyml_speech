@@ -20,14 +20,14 @@ jobs:
     steps:
       # Needed for elasticearch and upload script
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - name: Download Artifacts
         id: download-artifacts
-        uses: dawidd6/action-download-artifact@v8
+        uses: dawidd6/action-download-artifact@v11
         with:
           path: artifacts
           workflow: twister.yml
