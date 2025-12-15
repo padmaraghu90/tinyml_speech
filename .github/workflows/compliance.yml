@@ -18,7 +18,7 @@ jobs:
         echo "$HOME/.local/bin" >> $GITHUB_PATH
 
     - name: Checkout the code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         ref: ${{ github.event.pull_request.head.sha }}
         fetch-depth: 0
@@ -41,12 +41,12 @@ jobs:
         git log  --pretty=oneline | head -n 10
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: 3.11
 
     - name: cache-pip
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('.github/workflows/compliance.yml') }}
@@ -86,7 +86,7 @@ jobs:
         -c origin/${BASE_REF}..
 
     - name: upload-results
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       continue-on-error: true
       with:
         name: compliance.xml
